@@ -1,26 +1,17 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  Button,
-  StatusBar,
-  Text,
-} from 'react-native';
+import {Provider} from 'mobx-react';
 
-declare const global: {HermesInternal: null | {}};
+import { Counter } from './src/features/counter/Counter';
+import { createRootStore } from './src/stores/stores';
 
 export class App extends React.Component {
-  public state = {counter: 0}
+  private rootStore = createRootStore();
 
   public render() {
     return (
-      <>
-        <StatusBar barStyle="dark-content" />
-        <SafeAreaView style={{flex: 1}}>
-          <Text>{this.state.counter}</Text>
-          <Button title="+" onPress={() => this.setState(({counter}) => ({counter: counter + 1}))}/>
-          <Button title="-" onPress={() => this.setState(({counter}) => ({counter: counter - 1}))}/>
-        </SafeAreaView>
-      </>
+      <Provider {...this.rootStore}>
+        <Counter />
+      </Provider>
     );
   }
 };
